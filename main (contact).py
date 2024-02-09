@@ -14,7 +14,7 @@ db = firestore.client()
 # Function to fetch data from Firebase
 def fetch_contact_data():
     # Replace 'contact_us' with the actual collection name in Firestore
-    contact_us_ref = db.collection('dd_product')
+    contact_us_ref = db.collection('DD_Query')
     docs = contact_us_ref.stream()
     contact_data = []
 
@@ -26,7 +26,7 @@ def fetch_contact_data():
 # Function to fetch previously sent data
 def fetch_sent_data():
     # Replace 'sent_data' with the name of the collection where you store sent data
-    sent_data_ref = db.collection('DD_email_sent_data')
+    sent_data_ref = db.collection('DD_email_sent_data_query')
     docs = sent_data_ref.stream()
     sent_data = []
 
@@ -47,10 +47,10 @@ def send_email(contact_data, sent_data):
     msg = MIMEMultipart()
     msg['From'] = smtp_username
     msg['To'] = 'beformofficial@gmail.com'
-    msg['Subject'] = 'New purchase Request from Beform.co'
+    msg['Subject'] = 'New contact Request from Beform.co'
 
     # Create the email body
-    body = "New Purchase Requests:\n\n"
+    body = "New contact Requests:\n\n"
     
     # Filter out already sent data
     unsent_data = [data for data in contact_data if data not in sent_data]
@@ -60,18 +60,10 @@ def send_email(contact_data, sent_data):
         return
     
     for data in unsent_data:
-        body += f"address: {data['address']}\n"
+        body += f"contact: {data['contact']}\n"
         body += f"email: {data['email']}\n"
-        body += f"itemNames: {data['itemNames']}\n"
-        body += f"itemQuantity: {data['itemQuantity']}\n"
-        body += f"itemSize: {data['itemSize']}\n\n"
-        body += f"itemType: {data['itemType']}\n\n"
-        body += f"jsonRes: {data['jsonRes']}\n\n"
-        body += f"name: {data['name']}\n\n"
-        body += f"phone: {data['phone']}\n\n"
-        body += f"pincode: {data['pincode']}\n\n"
-        body += f"totalCost: {data['totalCost']}\n\n"
-
+        body += f"name: {data['name']}\n"
+        body += f"query: {data['query']}\n"
 
 
 
@@ -87,7 +79,7 @@ def send_email(contact_data, sent_data):
         print("Email sent successfully to Beform!")
 
         # Update the sent data in the 'sent_data' collection
-        sent_data_ref = db.collection('DD_email_sent_data')
+        sent_data_ref = db.collection('DD_email_sent_data_query')
         for data in unsent_data:
             sent_data_ref.add(data)
     except Exception as e:
@@ -108,7 +100,7 @@ if __name__ == "__main__":
 # Function to fetch data from Firebase
 def fetch_contact_data():
     # Replace 'contact_us' with the actual collection name in Firestore
-    contact_us_ref = db.collection('dd_product')
+    contact_us_ref = db.collection('DD_Query')
     docs = contact_us_ref.stream()
     contact_data = []
 
@@ -120,7 +112,7 @@ def fetch_contact_data():
 # Function to fetch previously sent data
 def fetch_email_sent_to_user():
     # Replace 'email_sent_to_user' with the name of the collection where you store sent data
-    email_sent_to_user_ref = db.collection('DD_email_sent_to_user')
+    email_sent_to_user_ref = db.collection('DD_email_sent_to_user_query')
     docs = email_sent_to_user_ref.stream()
     email_sent_to_user = []
 
@@ -137,7 +129,7 @@ def send_confirmation_email(email, name):
     smtp_password = 'mebvntozhivhgpts'  # Replace with your Gmail password
 
     # Load the HTML email template
-    with open('DD.html', 'r') as file:
+    with open('DD (contact).html', 'r') as file:
         email_template = file.read()
 
     # Replace placeholders with user data
@@ -147,7 +139,7 @@ def send_confirmation_email(email, name):
     msg = MIMEMultipart()
     msg['From'] = smtp_username
     msg['To'] = email
-    msg['Subject'] = 'Beform: Your order has been placed!'
+    msg['Subject'] = 'Beform: Your query has been received!'
 
     # Attach the HTML email body
     msg.attach(MIMEText(email_template, 'html'))
@@ -172,5 +164,5 @@ if __name__ == "__main__":
         if data not in email_sent_to_user:
             send_confirmation_email(data['email'], data['name'])
             # Add the data to the 'email_sent_to_user' collection in Firestore
-            email_sent_to_user_ref = db.collection('DD_email_sent_to_user')
+            email_sent_to_user_ref = db.collection('DD_email_sent_to_user_query')
             email_sent_to_user_ref.add(data)
