@@ -1,0 +1,2 @@
+itemType,totalCost,itemNames,phone,itemQuantity,address,email,pincode,itemSize,jsonRes,name
+['Oversized'],1,['Classic T-Shirt 1'],9929581419,[1],"5/92, SFS Mansarover Jaipur",vipul0592bhatia@gmail.com,302020,['l'],"{'msg': 'Payment verified', 'orderId': 'order_NYoUoStu286rzq', 'paymentId': 'pay_NYoV1BkWJyAIeU'}",Vipul Bhatia

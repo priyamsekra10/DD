@@ -24,80 +24,80 @@ def fetch_contact_data():
     return contact_data
 
 # Function to fetch previously sent data
-def fetch_sent_data():
-    # Replace 'sent_data' with the name of the collection where you store sent data
-    sent_data_ref = db.collection('DD_email_sent_data')
-    docs = sent_data_ref.stream()
-    sent_data = []
+# def fetch_sent_data():
+#     # Replace 'sent_data' with the name of the collection where you store sent data
+#     sent_data_ref = db.collection('DD_email_sent_data')
+#     docs = sent_data_ref.stream()
+#     sent_data = []
 
-    for doc in docs:
-        sent_data.append(doc.to_dict())
+#     for doc in docs:
+#         sent_data.append(doc.to_dict())
 
-    return sent_data
+#     return sent_data
 
-# Function to send email
-def send_email(contact_data, sent_data):
-    smtp_server = 'smtp.gmail.com'
-    smtp_port = 587
+# # Function to send email
+# def send_email(contact_data, sent_data):
+#     smtp_server = 'smtp.gmail.com'
+#     smtp_port = 587
 
-    smtp_username = 'beformofficial@gmail.com'  # Gmail sender email
-    smtp_password = 'mebvntozhivhgpts'
+#     smtp_username = 'beformofficial@gmail.com'  # Gmail sender email
+#     smtp_password = 'mebvntozhivhgpts'
     
-    # Create a MIMEText object
-    msg = MIMEMultipart()
-    msg['From'] = smtp_username
-    msg['To'] = 'beformofficial@gmail.com'
-    msg['Subject'] = 'New purchase Request from Beform.co'
+#     # Create a MIMEText object
+#     msg = MIMEMultipart()
+#     msg['From'] = smtp_username
+#     msg['To'] = 'beformofficial@gmail.com'
+#     msg['Subject'] = 'New purchase Request from Beform.co'
 
-    # Create the email body
-    body = "New Purchase Requests:\n\n"
+    # # Create the email body
+    # body = "New Purchase Requests:\n\n"
     
-    # Filter out already sent data
-    unsent_data = [data for data in contact_data if data not in sent_data]
+    # # Filter out already sent data
+    # unsent_data = [data for data in contact_data if data not in sent_data]
 
-    if not unsent_data:
-        print("No new data to send.")
-        return
+    # if not unsent_data:
+    #     print("No new data to send.")
+    #     return
     
-    for data in unsent_data:
-        body += f"address: {data['address']}\n"
-        body += f"email: {data['email']}\n"
-        body += f"itemNames: {data['itemNames']}\n"
-        body += f"itemQuantity: {data['itemQuantity']}\n"
-        body += f"itemSize: {data['itemSize']}\n\n"
-        body += f"itemType: {data['itemType']}\n\n"
-        body += f"jsonRes: {data['jsonRes']}\n\n"
-        body += f"name: {data['name']}\n\n"
-        body += f"phone: {data['phone']}\n\n"
-        body += f"pincode: {data['pincode']}\n\n"
-        body += f"totalCost: {data['totalCost']}\n\n"
+    # for data in unsent_data:
+    #     body += f"address: {data['address']}\n"
+    #     body += f"email: {data['email']}\n"
+    #     body += f"itemNames: {data['itemNames']}\n"
+    #     body += f"itemQuantity: {data['itemQuantity']}\n"
+    #     body += f"itemSize: {data['itemSize']}\n\n"
+    #     body += f"itemType: {data['itemType']}\n\n"
+    #     body += f"jsonRes: {data['jsonRes']}\n\n"
+    #     body += f"name: {data['name']}\n\n"
+    #     body += f"phone: {data['phone']}\n\n"
+    #     body += f"pincode: {data['pincode']}\n\n"
+    #     body += f"totalCost: {data['totalCost']}\n\n"
 
 
 
 
-    msg.attach(MIMEText(body, 'plain'))
+    # msg.attach(MIMEText(body, 'plain'))
 
-    # Send the email using Gmail's SMTP server
-    try:
-        server = smtplib.SMTP(smtp_server, smtp_port)
-        server.starttls()
-        server.login(smtp_username, smtp_password)
-        server.sendmail(smtp_username, 'beformofficial@gmail.com', msg.as_string())
-        server.quit()
-        print("Email sent successfully to Beform!")
+    # # Send the email using Gmail's SMTP server
+    # try:
+    #     server = smtplib.SMTP(smtp_server, smtp_port)
+    #     server.starttls()
+    #     server.login(smtp_username, smtp_password)
+    #     server.sendmail(smtp_username, 'beformofficial@gmail.com', msg.as_string())
+    #     server.quit()
+    #     print("Email sent successfully to Beform!")
 
-        # Update the sent data in the 'sent_data' collection
-        sent_data_ref = db.collection('DD_email_sent_data')
-        for data in unsent_data:
-            sent_data_ref.add(data)
-    except Exception as e:
-        print("Error sending email:", str(e))
+    #     # Update the sent data in the 'sent_data' collection
+    #     sent_data_ref = db.collection('DD_email_sent_data')
+    #     for data in unsent_data:
+    #         sent_data_ref.add(data)
+    # except Exception as e:
+    #     print("Error sending email:", str(e))
 
-if __name__ == "__main__":
-    contact_data = fetch_contact_data()
-    sent_data = fetch_sent_data()
-    if contact_data:
-        send_email(contact_data, sent_data)
+# if __name__ == "__main__":
+#     contact_data = fetch_contact_data()
+#     sent_data = fetch_sent_data()
+#     if contact_data:
+#         send_email(contact_data, sent_data)
         
         
         
