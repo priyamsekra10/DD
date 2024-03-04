@@ -17,7 +17,7 @@ def fetch_contact_data():
     contact_us_ref = db.collection('dd_product')
     docs = contact_us_ref.stream()
     contact_data = []
-
+ 
     for doc in docs:
         contact_data.append(doc.to_dict())
 
