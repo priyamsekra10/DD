@@ -73,7 +73,7 @@ def send_email(contact_data, sent_data):
         body += f"pincode: {data['pincode']}\n\n"
         body += f"totalCost: {data['totalCost']}\n\n"
 
-
+#
 
 
     msg.attach(MIMEText(body, 'plain'))
