@@ -59,7 +59,7 @@ def send_email(contact_data, sent_data):
     if not unsent_data:
         print("No new data to send.")
         return
-    
+    # edii
     for data in unsent_data:
         body += f"address: {data['address']}\n"
         body += f"email: {data['email']}\n"
